@@ -5,6 +5,7 @@ const Spotify = require ('node-spotify-api');
 const keys = require('./keys.js');
 const spotify = new Spotify(keys.spotify);
 const request = require('request');
+let fs = require("fs");
 //
 const Bandsintown = require('bandsintown');
 
@@ -51,16 +52,16 @@ const thisSong= function(){
           name: 'song'  
         }
     ]).then(function(response){
-        spotify.search({ type: 'track', query: response.song }, function(err, data) {
+        spotify.search({ type: 'track', query: response.song, limit: 5}, function(err, data) {
             if (err) {
               return console.log('Error occurred: ' + err);
             } let tracks = data.tracks.items; 
             for(let i = 0; i < tracks.length; i++){
-                console.log(tracks[i].name);
+                console.log("Song Title:"+tracks[i].name);
                 
-                console.log(tracks[i].album.name);
-                console.log(tracks[i].preview_url);
-                console.log(tracks[i].artists.name);
+                console.log("Album Name:"+tracks[i].album.name);
+                console.log("Preview URL:"+tracks[i].preview_url);
+                console.log("Artist Name:"+tracks[i].artists.name);
             }
             
 
@@ -82,13 +83,23 @@ const movie = function (){
         }
     ]).then(function(response){
      
-     let movieChoice = request('http://www.omdbapi.com/?t='+response.movieChoice+'&y=&plot=full&tomatoes=true&apikey=trilogy', function(err, response, body){
+      request('http://www.omdbapi.com/?t='+response.movieChoice+'&y=&plot=full&tomatoes=true&apikey=trilogy', function(err, response, body){
      if(err) {  
      console.log('error:', err);
      } else {
-         console.log(movieChoice);
+         let movieObj = JSON.parse(body);
+         console.log(`
+         Movie Title: ${movieObj.Title}
+         Year Released: ${movieObj.Year}
+         IMDB Rating: ${movieObj.Ratings[0].Value}
+         Rotten Tomatoes Rating: ${movieObj.Ratings[1].Value}
+         Produced in: ${movieObj.Country}
+         Language(s): ${movieObj.Language}
+         Plot: ${movieObj.Plot}
+         Actors: ${movieObj.Actors}`)
+        //  console.log(movieChoice);
          
-         console.log(JSON.parse(body));
+        //  console.log(JSON.parse(body));
          
          
      }
@@ -116,6 +127,26 @@ const concert = function(){
                 console.log(JSON.parse(body));
             }
         });
+    })
+}
+
+
+const doWhat = function(){
+    inquirer
+    .prompt([
+        {
+            type: "confirm",
+            message: "Are you sure you want to do what it says??",
+            name: "confirmWhat",
+            default: true
+        }
+    ]).then(function(response){
+        fs.readFile('random.txt', 'utf8', fuction(error,data){
+            if(error){
+             return console.log(error);
+            }
+            console.log(data);
+        })
     })
 }
 
