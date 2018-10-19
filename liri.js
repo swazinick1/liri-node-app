@@ -11,6 +11,8 @@ const Bandsintown = require('bandsintown');
 
 const Omdb = require('omdbapi');
 
+let userInput = "";
+
 
 inquirer
     .prompt([
@@ -119,12 +121,19 @@ const concert = function(){
             name: 'band'
         }
     ]).then(function(response){
+
+      
         
-        request('https://rest.bandsintown.com/artists/${artist}/events?app_id=BANDSINTOWN_ID', function(err,response,body){
+    request('https://rest.bandsintown.com/artists/imaginedragons/events?app_id=4539bef5b014c1f99dee54825eb0cd7e', function(err,response,body){
+        
             if(err){
                 console.log("error:", err);
             } else {
-                console.log(JSON.parse(body));
+                let data = JSON.parse(body);
+                for(let i = 0; i < data.length; i++);
+                console.log(body);
+                
+                
             }
         });
     })
@@ -141,12 +150,13 @@ const doWhat = function(){
             default: true
         }
     ]).then(function(response){
-        fs.readFile('random.txt', 'utf8', fuction(error,data){
-            if(error){
-             return console.log(error);
+        fs.readFile('random.txt', 'UTF-8', function(error,data){
+            if (error){
+                return console.log(error);
             }
             console.log(data);
         })
+        
     })
 }
 

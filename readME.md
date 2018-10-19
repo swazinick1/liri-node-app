@@ -1,0 +1,3 @@
+Liri is a Language Interpretation and Recognition Interface.
+Liri is a node.js command line application that takes in parameters and gives back data. The user must enter 'node liri.js' into the command line then select from the liri options followed by a search parameter input or each option.
+A user can choose from the following commands ["concert-this', "spotify-song", "movie-this", "do-what-it-says"] to recieve data on their band/artist of choice, song from spotify, a movie which the user may want info on, or choose do what it says to get a suggestion of what to search for pulled from the random.txt document.
